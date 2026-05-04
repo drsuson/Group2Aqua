@@ -1,0 +1,97 @@
+# Project Title: Store Tracker
+# Group Members: 
+# Description: A simple store manager program that allows
+#              the user to view items, sell items, and view
+#              sales records.
+
+
+#  Initial Variables 
+fita_stock = 20          # Stock count for Fita
+fita_price = 10.0        # Price of Fita
+r1 = "Nothing Has Been Sold"  # Default sales record
+
+
+#  Input Validation Helper 
+def GetValidInt(prompt=""):
+    # Keeps asking until the user enters a valid integer
+    while True:
+        try:
+            return int(input(prompt))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+
+# View Items & Stock 
+def ViewItems():
+    # Displays available items and their current stock and price
+    print("Fita")
+    print("Price: ₱" + str(fita_price))
+    print("Stock: " + str(fita_stock))
+    print("Return(Input 1)")
+    return GetValidInt()
+
+
+# Sell an Item 
+def SellItem():
+    # Handles the selling process: item selection, quantity input, and stock update
+    global fita_stock, r1
+
+    print("Choose An Item To Sell")
+    print("1: Fita")
+    item_n = GetValidInt()
+
+    if item_n == 1:
+        item_c = "Fita"
+        item_v = fita_price
+        print("Item Chosen: Fita")
+        print("Enter Quantity")
+        item_q = GetValidInt()
+
+        # Validate that quantity does not exceed available stock
+        if item_q > fita_stock:
+            print("Error, There Are Only " + str(fita_stock) + " Of This Item in Stock")
+        elif item_q <= 0:
+            print("Error, Quantity Must Be Greater Than 0")
+        else:
+            # Process the sale
+            fita_stock = fita_stock - item_q
+            print("You Sold:" + str(item_q) + " " + item_c + "/s")
+            print("Worth: ₱" + str(item_v * item_q))
+            r1 = "You Sold: " + str(item_q) + " " + item_c + "/s"
+    else:
+        print("Please Enter A Valid Item")
+
+    print("Return(Input 1)")
+    return GetValidInt()
+
+
+# View Sales Record 
+def ViewRecords():
+    # Displays the most recent sales record
+    print("Record of Sales:")
+    print(r1)
+    print("Return(Input 1)")
+    return GetValidInt()
+
+
+# Main Program Loop 
+loop = 1
+while loop == 1:
+    # Display main menu
+    print("Store Tracker")
+    print("1.View Items & Stock")
+    print("2.Sell An Item")
+    print("3.View Items Sold")
+
+    o1 = GetValidInt()  # Get validated menu choice
+
+    if o1 == 1:
+        loop = ViewItems()
+    else:
+        if o1 == 2:
+            loop = SellItem()
+        else:
+            if o1 == 3:
+                loop = ViewRecords()
+            else:
+                print("Please Enter A Valid Input")
